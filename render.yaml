@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: flask-streamlit-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    envVars:
+      - key: RUNNING_IN_PRODUCTION
+        value: true
+      - key: PORT
+        value: 10000
+      - key: STREAMLIT_PORT
+        value: 8501
+      - key: PYTHON_VERSION
+        value: 3.9.0
