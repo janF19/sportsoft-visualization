@@ -14,13 +14,14 @@ MAPS_DIRECTORY = os.path.join(pathlib.Path(__file__).parent.resolve(), 'static',
 
 # Get environment-specific configuration
 IS_PRODUCTION = os.getenv('RUNNING_IN_PRODUCTION', 'false').lower() == 'true'
-PORT = int(os.getenv('PORT', 5000))
-STREAMLIT_PORT = int(os.getenv('STREAMLIT_PORT', 8501))
+PORT = int(os.getenv('PORT', 10000))
+
 
 # Set host based on environment
 HOST = '0.0.0.0' if IS_PRODUCTION else 'localhost'
 BASE_URL = os.getenv('RENDER_EXTERNAL_URL', f'http://{HOST}:{PORT}')
-STREAMLIT_URL = f'http://{HOST}:{STREAMLIT_PORT}'
+#STREAMLIT_URL = f'http://{HOST}:{STREAMLIT_PORT}'
+#STREAMLIT_PORT = int(os.getenv('STREAMLIT_PORT', 8501))
 
 @app.route('/')
 def index():
@@ -39,11 +40,21 @@ def display_map(filename):
 @app.route('/charts')
 def show_charts():
     # Start the Streamlit app in a separate thread when this route is accessed
-    streamlit_thread = threading.Thread(target=run_streamlit)
-    streamlit_thread.daemon = True
-    streamlit_thread.start()
+    # streamlit_thread = threading.Thread(target=run_streamlit)
+    # streamlit_thread.daemon = True
+    # streamlit_thread.start()
     
-    return redirect(STREAMLIT_URL)
+    # return redirect(STREAMLIT_URL)
+    
+     # Start Streamlit as a subprocess
+    streamlit_process = subprocess.Popen([
+        'streamlit', 'run', 'streamlit_app.py',
+        '--server.port', str(PORT),
+        '--server.address', HOST,
+        '--server.baseUrlPath', '/charts'
+    ])
+    
+    return redirect(f"{BASE_URL}/charts")
 
 def run_streamlit():
     print(f"Starting Streamlit app on {STREAMLIT_URL}")

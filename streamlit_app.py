@@ -6,11 +6,11 @@ import json
 import os
 import streamlit as st
 
-# Environment configuration
-IS_PRODUCTION = os.getenv('RUNNING_IN_PRODUCTION', 'false').lower() == 'true'
-HOST = '0.0.0.0' if IS_PRODUCTION else 'localhost'
-PORT = int(os.getenv('PORT', 5000))
-BASE_URL = os.getenv('RENDER_EXTERNAL_URL', f'http://{HOST}:{PORT}')
+# # Environment configuration
+# IS_PRODUCTION = os.getenv('RUNNING_IN_PRODUCTION', 'false').lower() == 'true'
+# HOST = '0.0.0.0' if IS_PRODUCTION else 'localhost'
+# PORT = int(os.getenv('PORT', 10000))
+# BASE_URL = os.getenv('RENDER_EXTERNAL_URL', f'http://{HOST}:{PORT}')
 
 st.set_page_config(
     page_title="Sports Participation Analysis",
@@ -21,12 +21,12 @@ st.set_page_config(
 
 
 # Add this to handle CORS and running behind a proxy
-if not os.getenv("RUNNING_IN_PRODUCTION"):
-    # Local development
-    BASE_URL = "http://localhost:8501"
-else:
-    # Production on Render.com
-    BASE_URL = "https://your-app-name.onrender.com"
+# if not os.getenv("RUNNING_IN_PRODUCTION"):
+#     # Local development
+#     BASE_URL = "http://localhost:8501"
+# else:
+#     # Production on Render.com
+#     BASE_URL = "https://your-app-name.onrender.com"
 
 def load_preprocessed_data():
     """Load the preprocessed data from JSON files"""
