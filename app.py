@@ -20,6 +20,7 @@ PORT = int(os.getenv('PORT', 10000))
 # Set host based on environment
 HOST = '0.0.0.0' if IS_PRODUCTION else 'localhost'
 BASE_URL = os.getenv('RENDER_EXTERNAL_URL', f'http://{HOST}:{PORT}')
+STREAMLIT_URL = os.getenv('STREAMLIT_URL', 'https://streamlit-sportsoft-visualization.onrender.com/')
 #STREAMLIT_URL = f'http://{HOST}:{STREAMLIT_PORT}'
 #STREAMLIT_PORT = int(os.getenv('STREAMLIT_PORT', 8501))
 
@@ -47,20 +48,20 @@ def show_charts():
     # return redirect(STREAMLIT_URL)
     
      # Start Streamlit as a subprocess
-    streamlit_process = subprocess.Popen([
-        'streamlit', 'run', 'streamlit_app.py',
-        '--server.port', str(PORT),
-        '--server.address', HOST,
-        '--server.baseUrlPath', '/charts'
-    ])
+    # streamlit_process = subprocess.Popen([
+    #     'streamlit', 'run', 'streamlit_app.py',
+    #     '--server.port', str(PORT),
+    #     '--server.address', HOST,
+    #     '--server.baseUrlPath', '/charts'
+    # ])
     
-    return redirect(f"{BASE_URL}/charts")
+    return redirect(STREAMLIT_URL)
 
-def run_streamlit():
-    print(f"Starting Streamlit app on {STREAMLIT_URL}")
-    subprocess.run(['streamlit', 'run', 'streamlit_app.py', 
-                   '--server.port', str(STREAMLIT_PORT),
-                   '--server.address', HOST])
+# def run_streamlit():
+#     print(f"Starting Streamlit app on {STREAMLIT_URL}")
+#     subprocess.run(['streamlit', 'run', 'streamlit_app.py', 
+#                    '--server.port', str(STREAMLIT_PORT),
+#                    '--server.address', HOST])
 
 if __name__ == '__main__':
     
