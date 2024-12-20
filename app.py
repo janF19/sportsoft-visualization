@@ -38,6 +38,11 @@ def display_map(filename):
 
 @app.route('/charts')
 def show_charts():
+    # Start the Streamlit app in a separate thread when this route is accessed
+    streamlit_thread = threading.Thread(target=run_streamlit)
+    streamlit_thread.daemon = True
+    streamlit_thread.start()
+    
     return redirect(STREAMLIT_URL)
 
 def run_streamlit():
@@ -47,9 +52,7 @@ def run_streamlit():
                    '--server.address', HOST])
 
 if __name__ == '__main__':
-    streamlit_thread = threading.Thread(target=run_streamlit)
-    streamlit_thread.daemon = True
-    streamlit_thread.start()
+    
     
     os.makedirs(MAPS_DIRECTORY, exist_ok=True)
     print(app.url_map)
