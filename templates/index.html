@@ -1,44 +1,152 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sports Event Maps</title>
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --hover-color: #1d4ed8;
+            --background-color: #f8fafc;
+            --text-color: #1e293b;
+            --spacing: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: calc(var(--spacing) * 2);
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: calc(var(--spacing) * 3);
+            padding: calc(var(--spacing) * 2) 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        .map-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: var(--spacing);
         }
+
+        .maps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: calc(var(--spacing) * 1.5);
+            margin-bottom: calc(var(--spacing) * 3);
+        }
+
         .map-button {
-            padding: 10px 20px;
-            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: calc(var(--spacing) * 1.2);
+            background-color: white;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            min-height: 60px;
+            font-weight: 500;
+        }
+
+        .map-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #f8fafc;
+        }
+
+        .charts-button {
+            display: inline-block;
+            padding: calc(var(--spacing) * 1.2) calc(var(--spacing) * 2.4);
+            background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .charts-button:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .charts-container {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing);
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .maps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: var(--spacing);
+            }
+
+            .map-button {
+                padding: calc(var(--spacing) * 0.8);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .maps-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Sports Event Maps</h1>
-    <div class="map-buttons">
-        {% for map_file in map_files %}
-        <a href="{{ url_for('display_map', filename=map_file) }}" class="map-button">
-            {{ map_file.replace('.html', '') }}
-        </a>
-        {% endfor %}
+    <div class="header">
+        <h1>Mapy se závody v jednotlivých letech</h1>
     </div>
-    <br>
     
-    
-    <a href="/charts" class="map-button">View Charts</a>
+    <div class="container">
+        <div class="maps-grid">
+            {% for map_file in map_files %}
+            <a href="{{ url_for('display_map', filename=map_file) }}" class="map-button">
+                {{ map_file.replace('.html', '').replace('_', ' ') }}
+            </a>
+            {% endfor %}
+        </div>
+        
+        <div class="charts-container">
+            <a href="/charts" class="charts-button">Přehled statistik</a>
+        </div>
+    </div>
 </body>
 </html>
