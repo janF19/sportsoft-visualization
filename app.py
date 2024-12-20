@@ -28,6 +28,9 @@ STREAMLIT_URL = os.getenv('STREAMLIT_URL', 'https://streamlit-sportsoft-visualiz
 def index():
     try:
         map_files = [f for f in os.listdir(MAPS_DIRECTORY) if f.endswith('.html')]
+        # Sort map files by year
+        map_files.sort(key=lambda x: int(''.join(filter(str.isdigit, x))))  # Extract year and sort
+        
     except FileNotFoundError:
         print(f"Directory not found: {MAPS_DIRECTORY}")
         map_files = []
